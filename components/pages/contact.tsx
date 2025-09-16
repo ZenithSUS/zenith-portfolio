@@ -30,19 +30,11 @@ export default function Contact() {
       const response = await sendMessage(data);
       setFormData({ name: "", email: "", message: "" });
       if (response.success) {
-        toast.success(response.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        toast.success(response.message);
       }
     } catch (error) {
       console.error("Error sending email:", error);
+      toast.error("Failed to send email");
     } finally {
       setIsSubmitted(false);
     }

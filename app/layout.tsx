@@ -24,6 +24,22 @@ export const metadata: Metadata = {
       url: "https://github.com/ZenithSUS",
     },
   ],
+  openGraph: {
+    title: "Jeran Christopher | Full Stack Developer",
+    description:
+      "This is Jeran Christopher's Portfolio Website a Solo Leveling Theme Website",
+    url: "https://jeranchristopher.vercel.app",
+    siteName: "Jeran Christopher | Full Stack Developer",
+    images: [
+      {
+        url: "https://jeranchristopher.vercel.app/images/hero.webp",
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: "en-US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
