@@ -3,7 +3,7 @@
 import { FaFire } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 interface NavigationItem {
   name: string;
@@ -32,72 +32,64 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Refs for performance optimization
   const sectionElements = useRef<SectionData[]>([]);
+  const navbarRef = useRef<HTMLElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Cache DOM section elements once
-  useEffect(() => {
-    sectionElements.current = Navigations.map((nav, index) => {
-      const el = document.getElementById(nav.id);
-      return el ? { id: nav.id, element: el, index } : null;
-    }).filter(Boolean) as SectionData[];
+  // Memoize navbar height calculation to avoid repeated DOM queries
+  const getNavbarHeight = useCallback((): number => {
+    if (navbarRef.current) {
+      return navbarRef.current.offsetHeight;
+    }
+    return 80; // fallback
   }, []);
 
-  // Get dynamic navbar height
-  const getNavbarHeight = (): number => {
-    const navbar = document.querySelector("nav");
-    return navbar ? navbar.offsetHeight : 80;
-  };
-
-  // Hide/show navbar on scroll
+  // Cache DOM section elements once with error handling
   useEffect(() => {
-    let ticking = false;
+    const elements: SectionData[] = [];
 
-    const handleScroll = () => {
-      const current = window.scrollY;
-
-      if (
-        (current > lastScrollY && current > 50) ||
-        (current > 0 && current < lastScrollY - 50)
-      ) {
-        if (show) setShow(false);
-        if (menuOpen) setMenuOpen(false);
-      } else {
-        if (!show) setShow(true);
+    Navigations.forEach((nav, index) => {
+      const el = document.getElementById(nav.id);
+      if (el) {
+        elements.push({ id: nav.id, element: el, index });
       }
+    });
 
-      setLastScrollY(current);
-    };
+    sectionElements.current = elements;
+  }, []);
 
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+  // Optimized scroll handler with debouncing and RAF batching
+  const handleScroll = useCallback(() => {
+    const current = window.scrollY;
+    const navbarHeight = getNavbarHeight();
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [lastScrollY, show, menuOpen]);
+    // Batch DOM reads together
+    const scrollPosition = current + navbarHeight + 20;
 
-  // Track active section
-  useEffect(() => {
-    const handleScrollForActiveSection = () => {
-      const navbarHeight = getNavbarHeight();
-      const scrollPosition = window.scrollY + navbarHeight + 20;
+    // Handle navbar visibility
+    if (
+      (current > lastScrollY && current > 50) ||
+      (current > 0 && current < lastScrollY - 50)
+    ) {
+      if (show) setShow(false);
+      if (menuOpen) setMenuOpen(false);
+    } else {
+      if (!show) setShow(true);
+    }
 
-      let currentIndex = 0;
+    // Handle active section detection
+    let currentIndex = 0;
 
-      if (window.scrollY < 50) {
-        if (activeIndex !== 0) setActiveIndex(0);
-        return;
-      }
-
+    if (current < 50) {
+      currentIndex = 0;
+    } else {
+      // Use cached elements and batch DOM reads
       for (const section of sectionElements.current) {
-        const sectionTop = section.element.offsetTop;
-        const sectionBottom = sectionTop + section.element.offsetHeight;
+        const rect = section.element.getBoundingClientRect();
+        const sectionTop = current + rect.top;
+        const sectionBottom = sectionTop + rect.height;
 
         if (
           scrollPosition >= sectionTop - 50 &&
@@ -111,67 +103,175 @@ export default function Navbar() {
           currentIndex = section.index;
         }
       }
+    }
 
-      if (activeIndex !== currentIndex) {
-        setActiveIndex(currentIndex);
-      }
-    };
+    // Batch state updates
+    setLastScrollY(current);
+    if (activeIndex !== currentIndex) {
+      setActiveIndex(currentIndex);
+    }
+  }, [lastScrollY, show, menuOpen, activeIndex, getNavbarHeight]);
 
-    let ticking = false;
+  // Throttled scroll handler with RAF
+  useEffect(() => {
+    let isScrolling = false;
+
     const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScrollForActiveSection();
-          ticking = false;
-        });
-        ticking = true;
+      // Clear any existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
+
+      // Use RAF for smooth performance
+      if (!isScrolling) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+
+      // Debounce final scroll event
+      scrollTimeoutRef.current = setTimeout(() => {
+        if (!isScrolling) {
+          requestAnimationFrame(() => {
+            handleScroll();
+          });
+        }
+      }, 10);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [activeIndex]);
 
-  // Track mobile vs desktop
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (!mobile) setMenuOpen(false);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+  }, [handleScroll]);
+
+  // Debounced resize handler
+  const handleResize = useCallback(() => {
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    if (!mobile) setMenuOpen(false);
   }, []);
 
-  const handleNavClick = (index: number, href: string) => {
-    if (activeIndex !== index) setActiveIndex(index);
-    setMenuOpen(false);
+  useEffect(() => {
+    const onResize = () => {
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
 
-    const targetId = href.replace("/#", "");
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      const navbarHeight = getNavbarHeight();
-      const targetPosition = targetElement.offsetTop - navbarHeight - 10;
+      resizeTimeoutRef.current = setTimeout(handleResize, 100);
+    };
 
-      window.scrollTo({
-        top: Math.max(0, targetPosition),
-        behavior: "smooth",
-      });
-    }
-  };
+    handleResize(); // Initial call
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+    };
+  }, [handleResize]);
+
+  // Optimized navigation click handler
+  const handleNavClick = useCallback(
+    (index: number, href: string) => {
+      if (activeIndex !== index) setActiveIndex(index);
+      setMenuOpen(false);
+
+      const targetId = href.replace("/#", "");
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        // Batch DOM reads
+        const navbarHeight = getNavbarHeight();
+        const rect = targetElement.getBoundingClientRect();
+        const targetPosition = window.scrollY + rect.top - navbarHeight - 10;
+
+        window.scrollTo({
+          top: Math.max(0, targetPosition),
+          behavior: "smooth",
+        });
+      }
+    },
+    [activeIndex, getNavbarHeight],
+  );
+
+  // Memoize navigation items to prevent re-renders
+  const navigationItems = useMemo(
+    () =>
+      Navigations.map((nav, index) => (
+        <li key={nav.name}>
+          <a
+            href={nav.href}
+            className={`group ${
+              activeIndex === index ? "text-primary" : ""
+            } hover:text-primary relative transition-all duration-300`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick(index, nav.href);
+            }}
+          >
+            {nav.name}
+            <span
+              className={`from-primary to-accent absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r transition-all duration-300 ${
+                activeIndex === index ? "w-full" : "w-0 group-hover:w-full"
+              }`}
+            />
+          </a>
+        </li>
+      )),
+    [activeIndex, handleNavClick],
+  );
+
+  // Memoize mobile navigation items
+  const mobileNavigationItems = useMemo(
+    () =>
+      Navigations.map((nav, index) => (
+        <a
+          key={nav.name}
+          href={nav.href}
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavClick(index, nav.href);
+          }}
+          className={`hover:text-primary relative w-full text-center text-lg font-medium transition-colors ${
+            activeIndex === index ? "text-primary" : ""
+          }`}
+        >
+          {nav.name}
+          <span
+            className={`from-primary to-accent absolute -bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-gradient-to-r transition-all duration-300 ${
+              activeIndex === index ? "w-full" : "w-0 group-hover:w-full"
+            }`}
+          />
+        </a>
+      )),
+    [activeIndex, handleNavClick],
+  );
 
   return (
     <>
       {!show && (
-        <button onClick={() => setShow(true)}>
+        <button
+          onClick={() => setShow(true)}
+          aria-label="Show navigation"
+          className="fixed top-4 right-4 z-50"
+        >
           <FaFire
-            className="text-primary fixed top-4 right-4 z-50 cursor-pointer text-3xl drop-shadow-[0_0_10px_#00cfff]"
+            className="text-primary cursor-pointer text-3xl drop-shadow-[0_0_10px_#00cfff] transition-transform hover:scale-110"
             size={26}
           />
         </button>
       )}
+
       <motion.nav
+        ref={navbarRef}
         aria-hidden={!show ? "true" : "false"}
         animate={{ y: show ? 0 : -120 }}
         transition={{ duration: 0.35, ease: "easeInOut" }}
@@ -191,29 +291,7 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <ul className="hidden space-x-8 text-lg font-medium md:flex">
-            {Navigations.map((nav, index) => (
-              <li key={nav.name}>
-                <a
-                  href={nav.href}
-                  className={`group ${
-                    activeIndex === index ? "text-primary" : ""
-                  } hover:text-primary relative transition-all duration-300`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(index, nav.href);
-                  }}
-                >
-                  {nav.name}
-                  <span
-                    className={`from-primary to-accent absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r transition-all duration-300 ${
-                      activeIndex === index
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </a>
-              </li>
-            ))}
+            {navigationItems}
           </ul>
 
           {/* Mobile Hamburger */}
@@ -241,28 +319,7 @@ export default function Navbar() {
               className="bg-foreground/95 border-accent/30 fixed inset-x-0 top-[64px] z-40 border-t backdrop-blur-lg md:hidden"
             >
               <div className="mx-auto flex max-w-lg flex-col items-center gap-6 py-6">
-                {Navigations.map((nav, index) => (
-                  <a
-                    key={nav.name}
-                    href={nav.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(index, nav.href);
-                    }}
-                    className={`hover:text-primary relative w-full text-center text-lg font-medium transition-colors ${
-                      activeIndex === index ? "text-primary" : ""
-                    }`}
-                  >
-                    {nav.name}
-                    <span
-                      className={`from-primary to-accent absolute -bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-gradient-to-r transition-all duration-300 ${
-                        activeIndex === index
-                          ? "w-full"
-                          : "w-0 group-hover:w-full"
-                      }`}
-                    />
-                  </a>
-                ))}
+                {mobileNavigationItems}
               </div>
             </motion.div>
           )}
