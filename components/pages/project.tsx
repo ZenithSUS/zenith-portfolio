@@ -6,7 +6,7 @@ import Image from "next/image";
 import BackgroundMist from "@/components/ui/background-mist";
 import { Project } from "@/types/projects";
 import Header from "../ui/header";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ProjectDetails from "../ui/project-details";
 
 export default function ProjectContent({ projects }: { projects: Project[] }) {
@@ -22,14 +22,14 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
     [projects],
   );
 
-  useEffect(() => {
+  const handleScrollToProjects = useCallback(() => {
     if (projectsRef.current) {
       projectsRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-  }, [currentPage]);
+  }, [projectsRef, currentPage]);
 
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project);
@@ -37,14 +37,17 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
   };
 
   const handleNextPage = () => {
+    handleScrollToProjects();
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
   const handlePrevPage = () => {
+    handleScrollToProjects();
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   const handleChangePage = (page: number) => {
+    handleScrollToProjects();
     setCurrentPage(page);
   };
 

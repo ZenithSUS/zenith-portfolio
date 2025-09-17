@@ -216,7 +216,7 @@ export default function Contact() {
           disabled={isSubmitted}
           className="bg-primary text-background cursor-pointer rounded-lg px-6 py-3 font-semibold shadow-md transition disabled:pointer-events-none disabled:opacity-50"
         >
-          Send Message
+          {isSubmitted ? "Sending..." : "Send Message"}
         </motion.button>
       </motion.form>
       {/* Social Links */}
