@@ -34,6 +34,7 @@ export default function Home() {
           alt="Hero Silhouette"
           width={500}
           height={500}
+          priority
           style={{
             width: "auto",
             height: "auto",
@@ -100,7 +101,7 @@ export default function Home() {
             href="#projects"
             whileHover={{ scale: 1.1, boxShadow: "0 0 25px #00cfff" }}
             whileTap={{ scale: 0.95 }}
-            className="bg-primary text-background rounded-lg px-8 py-3 font-semibold shadow-lg transition"
+            className="bg-primary text-background rounded-lg px-8 py-3 font-bold shadow-lg transition"
           >
             View My Work
           </motion.a>
@@ -108,7 +109,7 @@ export default function Home() {
             href="#contact"
             whileHover={{ scale: 1.1, boxShadow: "0 0 25px #7f00ff" }}
             whileTap={{ scale: 0.95 }}
-            className="bg-accent text-background rounded-lg px-8 py-3 font-semibold shadow-lg transition"
+            className="bg-accent text-text rounded-lg px-8 py-3 font-bold shadow-lg transition"
           >
             Contact Me
           </motion.a>
@@ -125,6 +126,7 @@ export default function Home() {
           <a
             href="https://github.com/ZenithSUS"
             target="_blank"
+            aria-label="Github"
             rel="noopener noreferrer"
             className="text-text hover:text-primary transition"
           >
@@ -133,6 +135,7 @@ export default function Home() {
           <a
             href="https://www.linkedin.com/in/jeran-christopher-d-merino-24672a348/"
             target="_blank"
+            aria-label="Linkedin"
             rel="noopener noreferrer"
             className="text-text hover:text-accent transition"
           >
@@ -140,6 +143,7 @@ export default function Home() {
           </a>
           <a
             href="mailto:jeranmerino147@email.com"
+            aria-label="Email"
             className="text-text transition hover:text-rose-400"
           >
             <FaEnvelope size={28} />

@@ -59,9 +59,9 @@ export default function Skills({ skills }: { skills: SkillsType[] }) {
             className="flex flex-col items-center"
           >
             {/* Category Title */}
-            <h3 className="text-primary mb-8 text-2xl font-bold tracking-wide drop-shadow-md sm:text-3xl">
+            <h1 className="text-primary mb-8 text-2xl font-bold tracking-wide drop-shadow-md sm:text-3xl">
               {category.charAt(0).toUpperCase() + category.slice(1)}
-            </h3>
+            </h1>
 
             {/* Skills Grid */}
             <div className="grid grid-cols-2 place-content-center gap-6 sm:grid-cols-3">

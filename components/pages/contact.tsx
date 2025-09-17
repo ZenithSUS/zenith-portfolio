@@ -230,6 +230,7 @@ export default function Contact() {
         <a
           href="https://github.com/ZenithSUS"
           target="_blank"
+          aria-label="GitHub"
           rel="noopener noreferrer"
           className="transition hover:scale-110"
         >
@@ -238,6 +239,7 @@ export default function Contact() {
         <motion.a
           href="https://www.linkedin.com/in/jeran-christopher-d-merino-24672a348/"
           target="_blank"
+          aria-label="LinkedIn"
           rel="noopener noreferrer"
           className="cursor-pointer"
           whileHover={{ scale: 1.1 }}
@@ -250,6 +252,7 @@ export default function Contact() {
         <a
           href="mailto:jeranmerino147@gmail.com"
           target="_blank"
+          aria-label="Email"
           className="cursor-pointer transition hover:scale-110"
         >
           <FaEnvelope className="h-8 w-8" />

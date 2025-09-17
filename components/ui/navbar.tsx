@@ -272,7 +272,6 @@ export default function Navbar() {
 
       <motion.nav
         ref={navbarRef}
-        aria-hidden={!show ? "true" : "false"}
         animate={{ y: show ? 0 : -120 }}
         transition={{ duration: 0.35, ease: "easeInOut" }}
         className="border-accent/40 bg-foreground/40 fixed top-0 z-50 w-full border-b backdrop-blur-md"

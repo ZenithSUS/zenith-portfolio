@@ -55,7 +55,7 @@ export default function Testimonials({
             </p>
 
             {/* Name & Role */}
-            <h3 className="text-primary text-lg font-semibold">{t.name}</h3>
+            <h1 className="text-primary text-lg font-semibold">{t.name}</h1>
             <span className="text-subtext text-sm">{t.role}</span>
           </motion.div>
         ))}
