@@ -3,16 +3,16 @@
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaBuilding, FaEye } from "react-icons/fa";
 import Image from "next/image";
-import Particles from "@/components/ui/particles";
 import BackgroundMist from "@/components/ui/background-mist";
 import { Project } from "@/types/projects";
 import Header from "../ui/header";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ProjectDetails from "../ui/project-details";
 
 export default function ProjectContent({ projects }: { projects: Project[] }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,9 +22,30 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
     [projects],
   );
 
+  useEffect(() => {
+    if (projectsRef.current) {
+      projectsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [currentPage]);
+
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
   };
 
   // Slice projects for current page
@@ -41,6 +62,7 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: false, amount: 0.3 }}
+      ref={projectsRef}
     >
       {/* Project Details Modal */}
       {selectedProject && isModalOpen && (
@@ -54,7 +76,6 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
 
       {/* Background Effects */}
       <BackgroundMist />
-      <Particles />
 
       <Header>
         <div className="flex items-center gap-2">
@@ -141,7 +162,7 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
       {/* Pagination Controls */}
       <div className="z-10 mt-10 flex items-center gap-3">
         <button
-          onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+          onClick={handlePrevPage}
           disabled={currentPage === 1}
           className="bg-primary/20 text-primary rounded-lg px-3 py-1 text-sm disabled:opacity-40"
         >
@@ -152,7 +173,7 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
         {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i}
-            onClick={() => setCurrentPage(i + 1)}
+            onClick={handleChangePage.bind(null, i + 1)}
             className={`h-8 w-8 rounded-full text-sm font-medium ${
               currentPage === i + 1
                 ? "bg-primary text-white"
@@ -164,7 +185,7 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
         ))}
 
         <button
-          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+          onClick={handleNextPage}
           disabled={currentPage === totalPages}
           className="bg-primary/20 text-primary rounded-lg px-3 py-1 text-sm disabled:opacity-40"
         >

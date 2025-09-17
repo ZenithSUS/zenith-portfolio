@@ -2,15 +2,15 @@
 
 import { Skills as SkillsType } from "@/types/skills";
 import { motion } from "framer-motion";
-import Particles from "@/components/ui/particles";
 import BackgroundMist from "@/components/ui/background-mist";
 import Image from "next/image";
 import Header from "../ui/header";
 import { FaCode } from "react-icons/fa";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 export default function Skills({ skills }: { skills: SkillsType[] }) {
   const [currentPage, setCurrentPage] = useState(0);
+  const skillsRef = useRef<HTMLDivElement>(null);
   const perPage = 3;
 
   // Group skills by category
@@ -18,6 +18,8 @@ export default function Skills({ skills }: { skills: SkillsType[] }) {
 
   const handlePageChange = useCallback((page: number) => {
     if (page < 0 || page >= Math.ceil(categories.length / perPage)) return;
+    const scrollPosition = skillsRef.current?.offsetTop || 0;
+    window.scrollTo({ top: scrollPosition, behavior: "smooth" });
     setCurrentPage(page);
   }, []);
 
@@ -34,10 +36,10 @@ export default function Skills({ skills }: { skills: SkillsType[] }) {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: false, amount: 0.1 }}
+      ref={skillsRef}
     >
       {/* Background effects */}
       <BackgroundMist />
-      <Particles />
 
       <Header>
         <div className="flex items-center gap-2">

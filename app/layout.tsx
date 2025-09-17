@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/ui/navbar";
 import ModalProvider from "@/provider/modal";
 import ToastProvider from "@/provider/toast";
+import Particles from "@/components/ui/particles";
 
 export const metadata: Metadata = {
   title: "Jeran Christopher | Full Stack Developer",
@@ -51,6 +52,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-background text-text font-mono antialiased">
         <Navbar />
+        <Particles />
         <ModalProvider />
         <ToastProvider />
         {children}

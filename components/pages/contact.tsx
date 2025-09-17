@@ -1,13 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Particles from "@/components/ui/particles";
 import BackgroundMist from "@/components/ui/background-mist";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import Header from "../ui/header";
 import { sendMessage } from "@/actions/send-message";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface FormErrors {
+  name: string | null;
+  email: string | null;
+  message: string | null;
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,11 +27,96 @@ export default function Contact() {
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrors>({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const validateForm = (data: FormData) => {
+    const errors: FormErrors = {
+      name: "",
+      email: "",
+      message: "",
+    };
+
+    if (!data.name) {
+      errors.name = "Name is required";
+    } else if (data.name.length < 3) {
+      errors.name = "Name must be at least 3 characters";
+    } else if (data.name.length > 50) {
+      errors.name = "Name must be less than 50 characters";
+    } else {
+      errors.name = null;
+    }
+
+    if (!data.email) {
+      errors.email = "Email is required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email)) {
+      errors.email = "Invalid email address";
+    } else {
+      errors.email = null;
+    }
+
+    if (!data.message) {
+      errors.message = "Message is required";
+    } else if (data.message.length < 10) {
+      errors.message = "Message must be at least 10 characters";
+    } else if (data.message.length > 500) {
+      errors.message = "Message must be less than 500 characters";
+    } else {
+      errors.message = null;
+    }
+
+    return errors;
+  };
+
+  const checkName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const name = e.target.value;
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        name: name ? "" : "Name is required",
+      }));
+    },
+    [formData.name],
+  );
+
+  const checkEmail = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const email = e.target.value;
+      const isValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email);
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        email: isValid ? "" : "Invalid email address",
+      }));
+    },
+    [formData.email],
+  );
+
+  const checkMessage = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const message = e.target.value;
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        message: message ? "" : "Message is required",
+      }));
+    },
+    [formData.message],
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setIsSubmitted(true);
+
+      const errors = validateForm(formData);
+
+      if (errors.name || errors.email || errors.message) {
+        setFormErrors(errors);
+        return;
+      }
+
       const data = new FormData();
 
       data.append("name", formData.name);
@@ -50,7 +146,6 @@ export default function Contact() {
     >
       {/* Background */}
       <BackgroundMist />
-      <Particles />
 
       {/* Title */}
       <Header>
@@ -58,7 +153,6 @@ export default function Contact() {
           <FaEnvelope color="#00cfff" /> Contact Me
         </div>
       </Header>
-
       {/* Contact Form */}
       <motion.form
         initial={{ opacity: 0, scale: 0.95 }}
@@ -73,19 +167,31 @@ export default function Contact() {
           placeholder="Your Name"
           name="name"
           value={formData.name}
+          onInput={checkName}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           whileFocus={{ scale: 1.02, boxShadow: "0 0 15px #00cfff" }}
           className="bg-background/50 text-text rounded-lg px-4 py-3 focus:outline-none"
         />
+
+        {formErrors.name && (
+          <p className="text-start text-red-500">{formErrors.name}</p>
+        )}
+
         <motion.input
           type="email"
           placeholder="Your Email"
           name="email"
+          onInput={checkEmail}
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           whileFocus={{ scale: 1.02, boxShadow: "0 0 15px #00cfff" }}
           className="bg-background/50 text-text rounded-lg px-4 py-3 focus:outline-none"
         />
+
+        {formErrors.email && (
+          <p className="text-start text-red-500">{formErrors.email}</p>
+        )}
+
         <motion.textarea
           placeholder="Your Message..."
           name="message"
@@ -93,21 +199,26 @@ export default function Contact() {
           onChange={(e) =>
             setFormData({ ...formData, message: e.target.value })
           }
+          onInput={checkMessage}
           rows={5}
           whileFocus={{ scale: 1.02, boxShadow: "0 0 15px #00cfff" }}
           className="bg-background/50 text-text resize-none rounded-lg px-4 py-3 focus:outline-none"
         />
+
+        {formErrors.message && (
+          <p className="text-start text-red-500">{formErrors.message}</p>
+        )}
+
         <motion.button
           type="submit"
           whileHover={{ scale: 1.05, boxShadow: "0 0 20px #7f00ff" }}
           whileTap={{ scale: 0.95 }}
           disabled={isSubmitted}
-          className="bg-primary text-background rounded-lg px-6 py-3 font-semibold shadow-md transition disabled:pointer-events-none disabled:opacity-50"
+          className="bg-primary text-background cursor-pointer rounded-lg px-6 py-3 font-semibold shadow-md transition disabled:pointer-events-none disabled:opacity-50"
         >
           Send Message
         </motion.button>
       </motion.form>
-
       {/* Social Links */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

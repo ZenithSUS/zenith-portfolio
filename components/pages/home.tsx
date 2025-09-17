@@ -17,7 +17,6 @@ export default function Home() {
     >
       {/* Background effects */}
       <BackgroundMist />
-      <Particles />
 
       {/* Glow halo */}
       <div className="bg-primary/20 absolute -z-10 h-[500px] w-[500px] rounded-full blur-3xl" />

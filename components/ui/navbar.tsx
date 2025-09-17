@@ -191,7 +191,7 @@ export default function Navbar() {
         // Batch DOM reads
         const navbarHeight = getNavbarHeight();
         const rect = targetElement.getBoundingClientRect();
-        const targetPosition = window.scrollY + rect.top - navbarHeight - 10;
+        const targetPosition = window.scrollY + rect.top - navbarHeight + 60;
 
         window.scrollTo({
           top: Math.max(0, targetPosition),

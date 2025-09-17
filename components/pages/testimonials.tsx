@@ -2,7 +2,6 @@
 
 import { Testimonials as TestimonialsType } from "@/types/testimonials";
 import { motion } from "framer-motion";
-import Particles from "@/components/ui/particles";
 import BackgroundMist from "@/components/ui/background-mist";
 import { FaStar } from "react-icons/fa6";
 import Header from "../ui/header";
@@ -22,7 +21,6 @@ export default function Testimonials({
     >
       {/* Background Effects */}
       <BackgroundMist />
-      <Particles />
 
       {/* Section Title */}
       <Header>
