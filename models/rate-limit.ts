@@ -1,4 +1,3 @@
-// db/models/RateLimit.ts
 import mongoose from "mongoose";
 
 interface IRateLimit extends mongoose.Document {

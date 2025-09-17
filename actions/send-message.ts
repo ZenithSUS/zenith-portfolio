@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import { headers } from "next/headers";
 import { MongoRateLimiter } from "@/lib/rate-limiter";
 
-export const rateLimiter = new MongoRateLimiter({
+const rateLimiter = new MongoRateLimiter({
   emailLimit: 3, // 3 emails per hour per email address
   ipLimit: 10, // 10 attempts per hour per IP
   timeWindowMs: 60 * 60 * 1000, // 1 hour window
