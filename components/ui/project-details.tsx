@@ -147,9 +147,9 @@ export default function ProjectDetails({
           {project.features.map((feature, index) => (
             <div
               key={index}
-              className="bg-primary/10 rounded-xl px-3 py-2 text-center shadow-md"
+              className="bg-primary/10 flex items-center justify-center rounded-xl px-3 py-2 shadow-md"
             >
-              <p className="text-primary text-sm font-medium sm:text-base">
+              <p className="text-primary text-center text-sm font-medium sm:text-base">
                 {feature}
               </p>
             </div>

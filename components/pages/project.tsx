@@ -1,12 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt, FaBuilding, FaEye } from "react-icons/fa";
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaBuilding,
+  FaEye,
+  FaDownload,
+} from "react-icons/fa";
 import Image from "next/image";
 import BackgroundMist from "@/components/ui/background-mist";
 import { Project } from "@/types/projects";
 import Header from "../ui/header";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import ProjectDetails from "../ui/project-details";
 
 export default function ProjectContent({ projects }: { projects: Project[] }) {
@@ -139,9 +145,21 @@ export default function ProjectContent({ projects }: { projects: Project[] }) {
                   rel="noopener noreferrer"
                   className="hover:text-primary text-text flex cursor-pointer items-center gap-1 text-sm"
                 >
-                  <FaExternalLinkAlt size={16} color="#3b82f6" /> Demo
+                  <FaExternalLinkAlt size={16} color="#3b82f6" /> Live Demo
                 </a>
               )}
+
+              {project.demo2 !== "#" && (
+                <a
+                  href={project.demo2}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary text-text flex cursor-pointer items-center gap-1 text-sm"
+                >
+                  <FaDownload size={16} color="#3b82f6" /> App
+                </a>
+              )}
+
               <a
                 href={project.link}
                 target="_blank"

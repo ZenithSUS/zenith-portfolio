@@ -2,34 +2,13 @@ import { Project } from "@/types/projects";
 
 export const projects: Project[] = [
   {
-    title: "ZenithBooth",
-    description:
-      "AI-powered photo booth with filters and style transformations.",
-    link: "https://github.com/ZenithSUS/zenithbooth",
-    demo: "https://zenithbooth.onrender.com",
-    tech: ["React", "TailwindCSS", "Appwrite"],
-    image: "/images/ZenithBooth.webp",
-    features: [
-      "Quick Capture",
-      "Appwrite Auth",
-      "Image Filters",
-      "Photo Sharing",
-      "Save Creations",
-    ],
-    images: [
-      "/images/ZenithBooth.webp",
-      "/images/ZenithBooth1.webp",
-      "/images/ZenithBooth2.webp",
-      "/images/ZenithBooth3.webp",
-      "/images/ZenithBooth4.webp",
-    ],
-  },
-  {
     title: "SoloTrain",
     description:
       "AI-powered training fitness platform where you can train solo leveling training just like Sung Jin-Woo.",
     link: "https://github.com/ZenithSUS/SoloTrain",
     demo: "https://solo-train.vercel.app",
+    demo2:
+      "https://drive.google.com/drive/folders/1hNTDwpwKU7MeyJeedLQHVAb88YhIufwf",
     tech: [
       "React Native",
       "Node.js",
@@ -49,10 +28,35 @@ export const projects: Project[] = [
     ],
   },
   {
+    title: "ZenithBooth",
+    description:
+      "AI-powered photo booth with filters and style transformations.",
+    link: "https://github.com/ZenithSUS/zenithbooth",
+    demo: "https://zenithbooth.onrender.com",
+    demo2: "#",
+    tech: ["React", "TailwindCSS", "Appwrite"],
+    image: "/images/ZenithBooth.webp",
+    features: [
+      "Quick Capture",
+      "Appwrite Auth",
+      "Image Filters",
+      "Photo Sharing",
+      "Save Creations",
+    ],
+    images: [
+      "/images/ZenithBooth.webp",
+      "/images/ZenithBooth1.webp",
+      "/images/ZenithBooth2.webp",
+      "/images/ZenithBooth3.webp",
+      "/images/ZenithBooth4.webp",
+    ],
+  },
+  {
     title: "ZenithBee",
     description: "AI-powered food ordering assistant built with Mistral API.",
     link: "https://github.com/ZenithSUS/ZenithBee",
     demo: "https://zenith-bee.vercel.app",
+    demo2: "#",
     tech: [
       "React",
       "Node.js",
@@ -79,14 +83,48 @@ export const projects: Project[] = [
     ],
   },
   {
+    title: "Campus Confession",
+    description:
+      "A social media platform for anonymously confessing students to share their thoughts and feelings.",
+    link: "https://github.com/ZenithSUS/campus-confession-app",
+    demo: "https://campus-confession-app.vercel.app/",
+    demo2:
+      "https://drive.google.com/drive/folders/194ewQeAyztTEZIFhSMUNxfg0mq2sLzch",
+    tech: [
+      "React Native",
+      "Node.js",
+      "Express.js",
+      "TailwindCSS",
+      "Appwrite",
+      "Mistral AI",
+    ],
+    image: "/images/Campus-Confession.webp",
+    features: [
+      "Anonymous Users",
+      "Anonymous Confessions",
+      "Post Creation",
+      "Like and Comment Features",
+      "AI Suggestions",
+    ],
+    images: [
+      "/images/Campus-Confession.webp",
+      "/images/Campus-Confession1.webp",
+      "/images/Campus-Confession2.webp",
+      "/images/Campus-Confession3.webp",
+      "/images/Campus-Confession4.webp",
+      "/images/Campus-Confession5.webp",
+    ],
+  },
+  {
     title: "GreekMyth",
     description: "A social media platform for Greek mythology enthusiasts.",
     link: "https://github.com/ZenithSUS/GreekMyth",
     demo: "https://zenithsus.infinityfreeapp.com/",
+    demo2: "#",
     tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
     image: "/images/Greek-Myth.webp",
     features: [
-      "User Authentication",
+      "User Auth",
       "Post Creation",
       "Group Creation",
       "Friend Requests",
@@ -109,6 +147,7 @@ export const projects: Project[] = [
     tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
     image: "/images/Greek-Myth-CMS.webp",
     demo: "https://greekmythcms.infinityfreeapp.com",
+    demo2: "#",
     features: [
       "User Authentication",
       "Manage Posts",

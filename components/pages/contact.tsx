@@ -71,40 +71,6 @@ export default function Contact() {
     return errors;
   };
 
-  const checkName = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const name = e.target.value;
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        name: name ? "" : "Name is required",
-      }));
-    },
-    [formData.name],
-  );
-
-  const checkEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const email = e.target.value;
-      const isValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email);
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        email: isValid ? "" : "Invalid email address",
-      }));
-    },
-    [formData.email],
-  );
-
-  const checkMessage = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const message = e.target.value;
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        message: message ? "" : "Message is required",
-      }));
-    },
-    [formData.message],
-  );
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -167,7 +133,7 @@ export default function Contact() {
           placeholder="Your Name"
           name="name"
           value={formData.name}
-          onInput={checkName}
+          onInput={() => setFormErrors({ ...formErrors, name: "" })}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           whileFocus={{ scale: 1.02, boxShadow: "0 0 15px #00cfff" }}
           className="bg-background/50 text-text rounded-lg px-4 py-3 focus:outline-none"
@@ -181,7 +147,7 @@ export default function Contact() {
           type="email"
           placeholder="Your Email"
           name="email"
-          onInput={checkEmail}
+          onInput={() => setFormErrors({ ...formErrors, email: "" })}
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           whileFocus={{ scale: 1.02, boxShadow: "0 0 15px #00cfff" }}
@@ -199,7 +165,7 @@ export default function Contact() {
           onChange={(e) =>
             setFormData({ ...formData, message: e.target.value })
           }
-          onInput={checkMessage}
+          onInput={() => setFormErrors({ ...formErrors, message: "" })}
           rows={5}
           whileFocus={{ scale: 1.02, boxShadow: "0 0 15px #00cfff" }}
           className="bg-background/50 text-text resize-none rounded-lg px-4 py-3 focus:outline-none"
