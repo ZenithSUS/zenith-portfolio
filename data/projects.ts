@@ -28,6 +28,37 @@ export const projects: Project[] = [
     ],
   },
   {
+    title: "Convofy",
+    description: "A realtime chat app where you can chat with your friends.",
+    link: "https://github.com/ZenithSUS/Convofy",
+    demo: "https://convofy-sand.vercel.app",
+    demo2: "#",
+    tech: [
+      "Next.js",
+      "React",
+      "TailwindCSS",
+      "Pusher",
+      "MongoDB",
+      "TypeScript",
+    ],
+    features: [
+      "Realtime Chat",
+      "User Auth",
+      "Group Chat",
+      "Media Upload",
+      "Anonymous Chat",
+      "Typing Indicator",
+    ],
+    image: "/images/Convofy.webp",
+    images: [
+      "/images/Convofy.webp",
+      "/images/Convofy1.webp",
+      "/images/Convofy2.webp",
+      "/images/Convofy3.webp",
+      "/images/Convofy4.webp",
+    ],
+  },
+  {
     title: "ZenithBooth",
     description:
       "AI-powered photo booth with filters and style transformations.",
