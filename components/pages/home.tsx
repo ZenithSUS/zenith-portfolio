@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Particles from "@/components/ui/particles";
 import BackgroundMist from "@/components/ui/background-mist";
 import Image from "next/image";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
