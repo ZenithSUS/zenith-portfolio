@@ -123,12 +123,12 @@ export default function ChatInterface() {
 
   return (
     <motion.div
-      className="glow-border bg-foreground/50 fixed right-0 bottom-0 z-40 m-4 flex max-h-[60vh] w-full max-w-4xl flex-col rounded-lg p-4 shadow-lg backdrop-blur-lg md:w-96"
+      className="glow-border bg-foreground/50 fixed inset-x-2 bottom-2 z-40 flex max-h-[80vh] flex-col rounded-lg p-3 shadow-lg backdrop-blur-lg sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-[90%] md:w-1/2"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 1.05 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 1.02 }}
       viewport={{ once: false, amount: 0.3 }}
     >
       {/* Close Button */}
@@ -139,19 +139,21 @@ export default function ChatInterface() {
       </div>
 
       {/* Header */}
-      <div className="mb-4">
-        <h1 className="text-3xl font-bold">Zenith AI</h1>
-        <p className="text-primary font-semibold">
+      <div className="mb-3">
+        <h1 className="text-2xl font-bold sm:text-3xl">Zenith AI</h1>
+        <p className="text-primary text-sm font-semibold sm:text-base">
           Ask me anything about the portfolio!
         </p>
       </div>
 
       {/* Messages Container */}
-      <div className="bg-background mb-4 flex-1 space-y-4 overflow-y-auto rounded-lg p-4">
+      <div className="bg-background mb-3 flex-1 space-y-3 overflow-y-auto rounded-lg p-3">
         {messages.length === 0 && (
-          <div className="text-subtext mt-10 text-center">
-            <p className="text-lg">👋 Hello! How can I help you today?</p>
-            <p className="mt-2 text-sm">
+          <div className="text-subtext mt-8 text-center">
+            <p className="text-base sm:text-lg">
+              👋 Hello! How can I help you today?
+            </p>
+            <p className="mt-2 text-xs sm:text-sm">
               Try asking about projects, skills, or experience.
             </p>
           </div>
@@ -163,13 +165,13 @@ export default function ChatInterface() {
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[80%] rounded-lg p-4 ${
+              className={`max-w-[85%] rounded-lg p-3 text-sm sm:text-base ${
                 msg.role === "user"
                   ? "bg-primary border border-gray-200 text-black"
                   : "bg-accent text-text border border-gray-200"
               }`}
             >
-              <div className="mb-1 text-sm font-semibold">
+              <div className="mb-1 text-xs font-semibold sm:text-sm">
                 {msg.role === "user" ? "You" : "Assistant"}
               </div>
               <ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -180,7 +182,7 @@ export default function ChatInterface() {
         {/* Loading Indicator */}
         {isLoading && messages[messages.length - 1]?.role === "user" && (
           <div className="flex justify-start">
-            <div className="rounded-lg border border-gray-200 bg-white p-4">
+            <div className="rounded-lg border border-gray-200 bg-white p-3">
               <div className="flex items-center space-x-2">
                 <div className="bg-primary h-2 w-2 animate-bounce rounded-full"></div>
                 <div className="bg-primary h-2 w-2 animate-bounce rounded-full [animation-delay:0.2s]"></div>
@@ -200,7 +202,7 @@ export default function ChatInterface() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about the portfolio..."
-          className="flex-1 rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="flex-1 rounded-lg border border-gray-300 p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none sm:p-3 sm:text-base"
           disabled={isLoading}
           whileFocus={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 300 }}
@@ -208,11 +210,11 @@ export default function ChatInterface() {
         <motion.button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="bg-primary rounded-lg px-6 py-3 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          className="bg-primary rounded-lg px-4 py-2 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-3"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {isLoading ? "Sending..." : "Send"}
+          {isLoading ? "..." : "Send"}
         </motion.button>
       </form>
     </motion.div>
