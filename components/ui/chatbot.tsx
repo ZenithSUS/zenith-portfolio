@@ -118,7 +118,23 @@ export default function ChatInterface() {
         transition={{ duration: 3 }}
         whileTap={{ scale: 1.05 }}
       >
-        <FaRobot className="text-primary" size={30} />
+        <FaRobot
+          className="text-primary"
+          style={{ animation: "robotAnimate 3s ease-in-out infinite" }}
+          size={30}
+        />
+        {/* Robot CSS Animation */}
+        <style jsx>{`
+          @keyframes robotAnimate {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-5px);
+            }
+          }
+        `}</style>
       </motion.div>
     );
   }
