@@ -23,6 +23,7 @@ export default function ChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -68,6 +69,7 @@ export default function ChatInterface() {
 
           for (const line of lines) {
             if (line.startsWith("data: ")) {
+              // Cut off "data: "
               const data = line.slice(6);
               if (data === "[DONE]") continue;
 
@@ -182,11 +184,11 @@ export default function ChatInterface() {
         {/* Loading Indicator */}
         {isLoading && messages[messages.length - 1]?.role === "user" && (
           <div className="flex justify-start">
-            <div className="rounded-lg border border-gray-200 bg-white p-3">
+            <div className="bg-accent rounded-lg border border-gray-200 p-3">
               <div className="flex items-center space-x-2">
-                <div className="bg-primary h-2 w-2 animate-bounce rounded-full"></div>
-                <div className="bg-primary h-2 w-2 animate-bounce rounded-full [animation-delay:0.2s]"></div>
-                <div className="bg-primary h-2 w-2 animate-bounce rounded-full [animation-delay:0.4s]"></div>
+                <div className="h-2 w-2 animate-bounce rounded-full bg-white"></div>
+                <div className="h-2 w-2 animate-bounce rounded-full bg-white [animation-delay:0.2s]"></div>
+                <div className="h-2 w-2 animate-bounce rounded-full bg-white [animation-delay:0.4s]"></div>
               </div>
             </div>
           </div>
@@ -210,7 +212,7 @@ export default function ChatInterface() {
         <motion.button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="bg-primary rounded-lg px-4 py-2 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-3"
+          className="bg-primary rounded-lg px-4 py-2 font-medium text-black transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:px-6 sm:py-3"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
