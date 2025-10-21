@@ -5,6 +5,13 @@ export const POST = async (req: Request) => {
   try {
     const { messages } = await req.json();
 
+    if (!messages || !Array.isArray(messages)) {
+      return NextResponse.json(
+        { error: "Invalid messages format" },
+        { status: 400 },
+      );
+    }
+
     // Get the ReadableStream from QAPortfolio
     const stream = await QAPortfolio(messages);
 
