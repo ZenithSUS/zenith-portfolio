@@ -5,7 +5,7 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Group, PointLight } from "three";
 
-function Avatar({ isHovering }: { isHovering: boolean }) {
+function ContactAvatar({ isHovering }: { isHovering: boolean }) {
   const group = useRef<Group>(null);
   const glowLight = useRef<PointLight>(null);
   const { scene } = useGLTF("/avatars/avatar.glb");
@@ -88,4 +88,4 @@ function Avatar({ isHovering }: { isHovering: boolean }) {
   );
 }
 
-export default Avatar;
+export default ContactAvatar;

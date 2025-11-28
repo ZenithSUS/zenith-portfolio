@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import BackgroundMist from "@/components/ui/background-mist";
 import Image from "next/image";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Avatar from "../ui/avatar";
 
 export default function Home() {
+  const [isHovering, setIsHovering] = useState(false);
+
   const handleSrollTo = useCallback((id: string) => {
     const element = document.getElementById(id);
 
@@ -28,9 +30,13 @@ export default function Home() {
       {/* Background effects */}
       <BackgroundMist />
 
-      <div className="flex w-full flex-col items-center justify-evenly md:flex-row md:gap-10">
+      <div className="flex w-full flex-col items-center justify-evenly md:flex-row-reverse md:gap-10">
         {/* Avatar */}
-        <div className="relative flex h-[300px] w-screen items-center justify-center md:h-[500px] md:w-[500px]">
+        <div
+          className="relative flex h-[300px] w-screen items-center justify-center md:h-[500px] md:w-[500px]"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
           {/* Glow halo */}
           <div className="bg-primary/20 absolute -z-10 h-[500px] w-[500px] rounded-full blur-3xl" />
 
@@ -57,10 +63,11 @@ export default function Home() {
             />
           </motion.div>
 
+          {/* 3D Avatar */}
           <Canvas camera={{ position: [0, 1.8, 15], fov: 12 }}>
             <ambientLight intensity={0.7} />
             <directionalLight position={[5, 5, 5]} intensity={1.5} />
-            <Avatar />
+            <Avatar isHovering={isHovering} />
           </Canvas>
         </div>
 
@@ -106,10 +113,10 @@ export default function Home() {
               className="text-text mb-10 max-w-xl text-lg leading-relaxed"
             >
               Crafting modern, scalable, and efficient web and mobile apps with{" "}
-              <span className="text-accent">Next.js</span>,{" "}
-              <span className="text-primary">React/React Native</span>, and{" "}
-              <span className="text-accent">Node.js</span>. Always leveling up
-              like a hunter on a mission ⚔️.
+              <span className="text-accent font-bold">Next.js</span>,{" "}
+              <span className="text-primary font-bold">React/React Native</span>
+              , and <span className="text-accent font-bold">Node.js</span>.
+              Always leveling up like a hunter on a mission ⚔️.
             </motion.p>
 
             {/* CTA Buttons */}
