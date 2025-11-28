@@ -4,8 +4,17 @@ import { motion } from "framer-motion";
 import BackgroundMist from "@/components/ui/background-mist";
 import Image from "next/image";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { useCallback } from "react";
 
 export default function Home() {
+  const handleSrollTo = useCallback((id: string) => {
+    const element = document.getElementById(id);
+
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
     <motion.section
       id="home"
@@ -29,7 +38,7 @@ export default function Home() {
         className="absolute inset-0 -z-10 flex items-center justify-center"
       >
         <Image
-          src="/images/silhouette.png"
+          src="/images/portfolio/silhouette.png"
           alt="Hero Silhouette"
           width={500}
           height={500}
@@ -96,22 +105,22 @@ export default function Home() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <motion.a
-            href="#projects"
+          <motion.button
+            onClick={() => handleSrollTo("projects")}
             whileHover={{ scale: 1.1, boxShadow: "0 0 25px #00cfff" }}
             whileTap={{ scale: 0.95 }}
             className="bg-primary text-background rounded-lg px-8 py-3 font-bold shadow-lg transition"
           >
             View My Work
-          </motion.a>
-          <motion.a
-            href="#contact"
+          </motion.button>
+          <motion.button
+            onClick={() => handleSrollTo("contact")}
             whileHover={{ scale: 1.1, boxShadow: "0 0 25px #7f00ff" }}
             whileTap={{ scale: 0.95 }}
             className="bg-accent text-text rounded-lg px-8 py-3 font-bold shadow-lg transition"
           >
             Contact Me
-          </motion.a>
+          </motion.button>
         </motion.div>
 
         {/* Social Media Row */}

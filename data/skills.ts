@@ -92,6 +92,11 @@ export const skills: Skills[] = [
     category: "databases",
   },
   {
+    name: "Supabase",
+    icon: "/icons/supabase.png",
+    category: "databases",
+  },
+  {
     name: "Firebase",
     icon: "/icons/firebase.png",
     category: "databases",
@@ -114,6 +119,11 @@ export const skills: Skills[] = [
     category: "tools",
   },
   {
+    name: "Postman",
+    icon: "/icons/postman.png",
+    category: "tools",
+  },
+  {
     name: "Vite",
     icon: "/icons/vite.png",
     category: "tools",
@@ -126,6 +136,16 @@ export const skills: Skills[] = [
   {
     name: "Axios",
     icon: "/icons/axios.png",
+    category: "tools",
+  },
+  {
+    name: "Redis",
+    icon: "/icons/redis.png",
+    category: "tools",
+  },
+  {
+    name: "Upstash",
+    icon: "/icons/upstash.png",
     category: "tools",
   },
 

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Jeran Christopher | Full Stack Developer",
     images: [
       {
-        url: "https://jeranchristopher.vercel.app/images/hero.webp",
+        url: "https://jeranchristopher.vercel.app/images/portfolio/hero.webp",
         width: 800,
         height: 600,
       },
