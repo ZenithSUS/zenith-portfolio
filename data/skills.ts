@@ -87,6 +87,11 @@ export const skills: Skills[] = [
     category: "databases",
   },
   {
+    name: "SQLite",
+    icon: "/icons/sqlite.png",
+    category: "databases",
+  },
+  {
     name: "Appwrite",
     icon: "/icons/appwrite.png",
     category: "databases",

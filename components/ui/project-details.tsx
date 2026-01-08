@@ -2,7 +2,12 @@
 
 import { Project } from "@/types/projects";
 import Image from "next/image";
-import { FaGithub, FaTimes, FaExternalLinkAlt } from "react-icons/fa";
+import {
+  FaGithub,
+  FaTimes,
+  FaExternalLinkAlt,
+  FaDownload,
+} from "react-icons/fa";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -179,6 +184,19 @@ export default function ProjectDetails({
               whileTap={{ scale: 0.95 }}
             >
               <FaExternalLinkAlt size={20} /> Live Demo
+            </motion.a>
+          )}
+
+          {project.demo2 && (
+            <motion.a
+              href={project.demo2}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-accent/20 text-accent hover:bg-accent/30 flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaDownload size={20} /> Download
             </motion.a>
           )}
         </div>

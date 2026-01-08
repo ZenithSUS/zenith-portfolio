@@ -2,6 +2,42 @@ import { Project } from "@/types/projects";
 
 export const projects: Project[] = [
   {
+    title: "SoloTrain",
+    description:
+      "An AI-powered fitness RPG turning workouts into dungeon trials with stat-based progression.",
+    link: "https://github.com/ZenithSUS/SoloTrain",
+    demo: "https://solo-train.vercel.app",
+    demo2: "https://apkpure.com/solotrain/com.zenithsus.SoloTrain",
+    tech: [
+      "React Native",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "SQLite",
+      "TailwindCSS",
+      "Redis",
+      "GroqAI",
+    ],
+    image: "/images/SoloTrain/SoloTrain.png",
+    features: [
+      "AI Training",
+      "Leveling System",
+      "Daily Trials",
+      "Offline Play",
+      "Progress Stats",
+      "Fitness RPG",
+    ],
+    images: [
+      "/images/SoloTrain/SoloTrain.png",
+      "/images/SoloTrain/SoloTrain1.png",
+      "/images/SoloTrain/SoloTrain2.png",
+      "/images/SoloTrain/SoloTrain3.png",
+      "/images/SoloTrain/SoloTrain4.png",
+      "/images/SoloTrain/SoloTrain5.png",
+      "/images/SoloTrain/SoloTrain6.png",
+    ],
+  },
+  {
     title: "Convofy",
     description: "A realtime chat omegle like app built with Next.js.",
     link: "https://github.com/ZenithSUS/Convofy",
@@ -37,35 +73,9 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "SoloTrain",
-    description:
-      "AI-powered training fitness platform where you can train solo leveling training just like Sung Jin-Woo.",
-    link: "https://github.com/ZenithSUS/SoloTrain",
-    demo: "https://solo-train.vercel.app",
-    demo2:
-      "https://drive.google.com/drive/folders/1hNTDwpwKU7MeyJeedLQHVAb88YhIufwf",
-    tech: [
-      "React Native",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "TailwindCSS",
-      "GroqAI",
-    ],
-    image: "/images/SoloTrain/SoloTrain.png",
-    features: ["AI Exercises", "JWT Auth", "Fitness Game", "Track Progress"],
-    images: [
-      "/images/SoloTrain/SoloTrain.png",
-      "/images/SoloTrain/SoloTrain1.png",
-      "/images/SoloTrain/SoloTrain2.png",
-      "/images/SoloTrain/SoloTrain3.png",
-      "/images/SoloTrain/SoloTrain4.png",
-    ],
-  },
-  {
     title: "ZenithBooth",
     description:
-      "AI-powered photo booth with filters and style transformations.",
+      "A customizable photo booth with filters and style transformations share with your friends.",
     link: "https://github.com/ZenithSUS/zenithbooth",
     demo: "https://zenithbooth.onrender.com",
     demo2: "#",
