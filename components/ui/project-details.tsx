@@ -187,7 +187,7 @@ export default function ProjectDetails({
             </motion.a>
           )}
 
-          {project.demo2 && (
+          {project.demo2 && project.demo2 !== "#" && (
             <motion.a
               href={project.demo2}
               target="_blank"
