@@ -1,4 +1,4 @@
-import portfolio from "@/data/portfolio";
+import portfolioSystemPrompt from "@/data/portfolio-system-promt";
 import { Message } from "@/types/qroq";
 import Groq from "groq-sdk";
 
@@ -21,7 +21,7 @@ async function QAPortfolio(
       {
         name: "Zenith Assistant",
         role: "system",
-        content: portfolio,
+        content: portfolioSystemPrompt,
       },
       ...(messages as Message[]),
     ],
