@@ -18,7 +18,7 @@ export const projects: Project[] = [
       "Redis",
       "GroqAI",
     ],
-    image: "/images/SoloTrain/SoloTrain.png",
+    image: "/images/SoloTrain/SoloTrain.webp",
     features: [
       "AI Training",
       "Leveling System",
