@@ -42,3 +42,25 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 207, 255, 0.5) transparent;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 207, 255, 0.5);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 207, 255, 0.8);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 207, 255, 0.5) transparent;
+}

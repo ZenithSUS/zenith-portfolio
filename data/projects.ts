@@ -2,6 +2,42 @@ import { Project } from "@/types/projects";
 
 export const projects: Project[] = [
   {
+    title: "Zenithdocs",
+    description:
+      " AI-powered document manager that helps you organize, search, and collaborate on documents effortlessly. Smarter workflows, faster results.",
+    link: "https://github.com/ZenithSUS/zenithdocs",
+    demo: "https://zenithdocs-zen.vercel.app",
+    tech: [
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "TailwindCSS",
+      "MongoDB",
+      "Redis",
+      "Upstash",
+      "Mistral AI",
+      "WebSockets",
+    ],
+    image: "/images/ZenithDocs/ZenithDocs.webp",
+    features: [
+      "Document Summarization",
+      "Text Extraction",
+      "Chat Assistant",
+      "RAG Model",
+      "AI Training",
+      "AI Suggestions",
+    ],
+    images: [
+      "/images/ZenithDocs/ZenithDocs.webp",
+      "/images/ZenithDocs/ZenithDocs1.webp",
+      "/images/ZenithDocs/ZenithDocs2.webp",
+      "/images/ZenithDocs/ZenithDocs3.webp",
+      "/images/ZenithDocs/ZenithDocs4.webp",
+      "/images/ZenithDocs/ZenithDocs5.webp",
+      "/images/ZenithDocs/ZenithDocs6.webp",
+    ],
+  },
+  {
     title: "SoloTrain",
     description:
       "An AI-powered fitness RPG turning workouts into dungeon trials with stat-based progression.",
@@ -50,7 +86,6 @@ export const projects: Project[] = [
       "Pusher",
       "MongoDB",
       "TypeScript",
-      "Pusher",
       "Redis",
       "Upstash",
     ],
