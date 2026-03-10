@@ -1,5 +1,6 @@
 import type { Components } from "react-markdown";
 
+// markdown components
 export const markdownComponents: Components = {
   p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
   ul: ({ children }) => (
