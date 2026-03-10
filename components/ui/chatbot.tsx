@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { FaXmark } from "react-icons/fa6";
 import { FaRobot } from "react-icons/fa";
+import { markdownComponents } from "./markdown-components";
 
 interface Message {
   role: "user" | "assistant";
@@ -183,7 +184,7 @@ export default function ChatInterface() {
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[85%] rounded-lg p-3 text-sm sm:text-base ${
+              className={`max-w-[85%] rounded-lg p-5 text-sm sm:text-base ${
                 msg.role === "user"
                   ? "bg-primary border border-gray-200 text-black"
                   : "bg-accent text-text border border-gray-200"
@@ -192,7 +193,9 @@ export default function ChatInterface() {
               <div className="mb-1 text-xs font-semibold sm:text-sm">
                 {msg.role === "user" ? "You" : "Assistant"}
               </div>
-              <ReactMarkdown>{msg.content}</ReactMarkdown>
+              <ReactMarkdown components={markdownComponents}>
+                {msg.content}
+              </ReactMarkdown>
             </div>
           </div>
         ))}
