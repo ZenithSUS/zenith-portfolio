@@ -1,4 +1,4 @@
-import portfolioSystemPrompt from "@/data/portfolio-system-promt";
+import portfolioSystemPrompt from "@/data/portfolio-system-prompt";
 import { Message } from "@/types/qroq";
 import Groq from "groq-sdk";
 
